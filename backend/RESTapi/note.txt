@@ -3,14 +3,23 @@ how to setup nodejs with typescript
 2. cd check
 3. npm init -y;
 4. npm i dotenv express mongoose
-5. npm i typescript ts-node @types/node @types/express @types/mongoose --save dev 
+5. npm i typescript ts-node @types/node @types/express @types/mongoose --save- dev 
 6. tsc -init
 7. tsconfig.json
-outdir ./dist
-rootdir ./src 
-moudle es2020
-include src/**/*
-exudle nodemoudles
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
 
 8. package.json
 "scripts": {
