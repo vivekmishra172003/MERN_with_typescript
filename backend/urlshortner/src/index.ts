@@ -13,10 +13,15 @@ import dotenv from 'dotenv'
 import urlRoute from './routes/url';
 import connectToMongoDB from './connect';
 dotenv.config();
+
+//connection
 connectToMongoDB(process.env.MONGO_URI!)
 .then(()=>{console.log("Mongodb connected")})
+
 const app:Application = express();
+
 app.use(express.json());
+
 app.use('/url',urlRoute)
 
 app.listen(process.env.PORT!,()=>{console.log(`port is running at ${process.env.PORT}`)})

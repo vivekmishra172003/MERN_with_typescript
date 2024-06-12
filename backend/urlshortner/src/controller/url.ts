@@ -14,4 +14,27 @@ async function handleGenerateNewShortURL(req:Request,res:Response) {
     return res.json({id:shortID})
 }
 
-export default handleGenerateNewShortURL;
+async function handleOpenURL(req:Request,res:Response){
+    const shortId:string = req.params.shortId;
+    const entry =  await URL.findOneAndUpdate(
+        {shortId,},
+        {$push:{visitHistory:{timestamp:Date.now()},}},
+    // {new:true}
+);
+
+    if(!entry){
+        return res.status(404).json({error:"short URL not found"});
+    }
+    res.redirect(entry.redirectURL)
+}
+
+async function handleGetAnalytics(req:Request,res:Response) {
+    const shortId:string = req.params.shortId;
+    const result = await URL.findOne({shortId});
+    return res.json({
+        totalClicks:result?.visitHistory.length,
+        analytics:result?.visitHistory
+    });
+}
+
+export {handleGenerateNewShortURL,handleOpenURL,handleGetAnalytics} ;
