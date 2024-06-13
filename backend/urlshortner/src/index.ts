@@ -8,10 +8,11 @@ GET/:id redirects the user to the original url
 get /url/analytics/:id - Returns the clicks for the provided short id
  */ 
 
-import express, { Application } from 'express'
+import express, { Application ,Request,Response} from 'express'
 import dotenv from 'dotenv'
 import urlRoute from './routes/url';
 import connectToMongoDB from './connect';
+import URL from './models/url';
 dotenv.config();
 
 //connection
@@ -21,6 +22,20 @@ connectToMongoDB(process.env.MONGO_URI!)
 const app:Application = express();
 
 app.use(express.json());
+
+app.get('/test', async (req:Request,res:Response)=>{
+    const allUrls = await URL.find({});
+    return res.end(`
+        <html>
+        <head></head>
+        <body>
+        <ol>
+        ${allUrls.map(url=>`<li>${url.shortId}-${url.redirectURL}-${url.visitHistory.length}</li>`).join("")}
+        </ol>
+        </body>
+        </html>
+        `);
+})
 
 app.use('/url',urlRoute)
 
