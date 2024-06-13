@@ -1,0 +1,18 @@
+{
+  "name": "npm_copyfiles",
+  "version": "1.0.0",
+  "main": "index.js",
+"scripts": {
+  "build": "tsc && npm run copy-views",
+  "start": "node dist/index.js",
+  "dev": "ts-node src/index.ts",
+  "copy-views": "copyfiles -u 1 src/views/**/* dist"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
+  }
+}
