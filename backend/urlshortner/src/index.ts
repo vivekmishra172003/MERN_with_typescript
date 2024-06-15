@@ -8,35 +8,38 @@ GET/:id redirects the user to the original url
 get /url/analytics/:id - Returns the clicks for the provided short id
  */ 
 
-import express, { Application ,Request,Response} from 'express'
-import dotenv from 'dotenv'
+import express, { Application, Request, Response } from 'express';
+import dotenv from 'dotenv';
 import urlRoute from './routes/url';
 import connectToMongoDB from './connect';
 import URL from './models/url';
-dotenv.config();
+import path from 'path';
+import staticRoute from './routes/staticRouter';
 
-//connection
+// Load environment variables
+dotenv.config(); // Moved to the top to ensure environment variables are available early
+
+// Connect to MongoDB
 connectToMongoDB(process.env.MONGO_URI!)
-.then(()=>{console.log("Mongodb connected")})
+  .then(() => { console.log("Mongodb connected"); })
+  .catch(err => { console.error("Failed to connect to MongoDB", err); }); // Added error handling for MongoDB connection
 
-const app:Application = express();
+const app: Application = express();
+
+// Set view engine and views directory
+app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
 
-app.get('/test', async (req:Request,res:Response)=>{
-    const allUrls = await URL.find({});
-    return res.end(`
-        <html>
-        <head></head>
-        <body>
-        <ol>
-        ${allUrls.map(url=>`<li>${url.shortId}-${url.redirectURL}-${url.visitHistory.length}</li>`).join("")}
-        </ol>
-        </body>
-        </html>
-        `);
-})
+// Route to render home page with URLs
 
-app.use('/url',urlRoute)
 
-app.listen(process.env.PORT!,()=>{console.log(`port is running at ${process.env.PORT}`)})
+// Route for URL operations
+app.use('/url', urlRoute);
+app.use('/',staticRoute)
+
+// Start the server
+app.listen(process.env.PORT!, () => {
+  console.log(`Server is running at ${process.env.PORT}`);
+});
