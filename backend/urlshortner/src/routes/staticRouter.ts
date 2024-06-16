@@ -9,5 +9,8 @@ router
         urls:allurls
     });
 })
+.get('/signup',(req:Request,res:Response)=>{
+    return res.render("signup");
+})
 
 export default router;

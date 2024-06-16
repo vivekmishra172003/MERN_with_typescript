@@ -1,0 +1,12 @@
+two type of authication
+1. statefull which inucle state or data in serverside
+2. stateless which has no state
+
+
+1. statefull
+how to transfer uid
+1. cookies direct server or browerse
+2. response restapi
+3.header
+
+client -> auth middlerware(checksfor cookie value or uid if valild callnext else rejects the request)-->endpoints routes
