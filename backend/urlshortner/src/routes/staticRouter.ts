@@ -12,5 +12,8 @@ router
 .get('/signup',(req:Request,res:Response)=>{
     return res.render("signup");
 })
+.get('/login',(req:Request,res:Response)=>{
+    return res.render("login");
+})
 
 export default router;

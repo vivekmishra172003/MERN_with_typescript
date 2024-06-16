@@ -14,6 +14,7 @@ import dotenv from 'dotenv';
 import connectToMongoDB from './connect';
 import URL from './models/url';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 
 // all routes
 import staticRoute from './routes/staticRouter';
