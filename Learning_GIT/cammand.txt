@@ -1,0 +1,24 @@
+1. install git blame on vscode
+git config --global user.name "name"
+git config --global user.email "email"
+
+git config --global core.editor "code --wait"//which code editor code which  git should use
+
+git config --global core.autocrlf "input" // how the line  ends
+
+git config -e // to edit the values which we have set
+
+
+stages in git
+U - untracked not mangeing and not tracking
+A - added or staged
+C - commited 
+
+
+
+making git availbe in your projects
+git init
+
+making checkpoints or saved point 
+adding files 
+
