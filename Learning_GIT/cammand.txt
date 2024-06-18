@@ -21,4 +21,65 @@ git init
 
 making checkpoints or saved point 
 adding files 
+add . 
+to ignore files or you do not want to add it 
+then use
+make file name 
+.gitignore
+//put files name here
+hisab.txt
 
+git log --oneline 
+
+going back to some previous saved points
+user reset or revert
+
+git reset --hard HEAD ~1 one step back and  it will 1 step data remove data  
+git reset --soft 
+git reset --mixed 
+
+part 3 
+to show status 
+git status -s 
+git log --oneline 
+git log --oneline --graph
+stashing samjhana 
+
+ 
+branching 
+git branch feature/navbar 
+git switch  feature/navbar 
+to merge you should be in main branch 
+git merge  feature/navbar 
+if confile shows 
+3 options 
+accept cureent head 
+acceopt incoming branch 
+accecpt both   
+git add .
+ git commit -m " "
+
+ merge technique ff merge = fastforwardmerge 
+ three way merge 
+ and  merge
+
+ branch deletion 
+ git branch -d feature/navbar 
+
+ stashing 
+ jab aap kisi branch me kaam kar rahe ho and aapne kuch code likha hai and aapne us code ko commit nahi kiya hai , aur aap doosri branch  mei jaane ki kohish  karte ho to git aapko bolta hai ki bhai saved nahi hai changes delete o jaayge hum chaahe to unchanges ko delete hone de ya phir un changes ko draft kar sakte hia , jab bhi draft karenge to  wo changes naa hi delete honge naa hi  add honge beech  mein kahi dale rahnge fir  aap us branch mein jab waapas aaye  to wo changes waapas se apply  kar sakte hai 
+  git stash 
+  git stash apply 
+
+  // collabration 
+  Common Steps
+  main banda folder and initial files banaayega 
+  ab use github par daaldega 
+  collabrators add karega 
+
+  saare bande us repo se cloning karein 
+  [VERY IMPORTANT ] apin branch create karein
+  apna code usi branch mein likhin 
+  complete hone par commit dein 
+  inform karin teammate ko about commit 
+  merger banda fetch akrega and merge karega and re-push karega 
