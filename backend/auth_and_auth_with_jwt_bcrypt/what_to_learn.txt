@@ -1,0 +1,220 @@
+sabse pahle humein kuch cheejein seekhni hai alag alag
+1. cookie kaise set karte hai  read and set 
+2. bcrypt kaise use karte hai for password encryption and decryption 
+3. jwt kya hai and jwt mein data kaise store karein and baahar nikaalein 
+
+npm install jsonwebtoken  bcrypt 
+npm install --save-dev  @types/jsonwebtoken @types/bcrypt
+
+1. 
+to set cookie 
+import express, { Application,Request,Response } from 'express'
+import dotenv from 'dotenv'
+dotenv.config();
+const port:number =Number(process.env.PORT)||3000;
+const app:Application = express();
+
+app.get("/",(req:Request,res:Response)=>{
+    res.cookie("name","harsh");
+    res.status(200).send("done");
+})
+
+app.listen(port,()=>{console.log(`Serer connnect at port ${port}`)});
+
+to read the cookie or parse it we need ot install
+$ npm install cookie-parser
+npm install --save-dev @types/cookie-parser 
+
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
+
+app.get("/read",(req:Request,res:Response)=>{
+    console.log(req.cookies);
+    res.send("chak de fatte");
+})
+
+2. 
+import bcrypt from 'bcrypt'
+
+encryption
+
+bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+        // Store hash in your password DB.
+    });
+});
+
+app.get("/b",(req:Request,res:Response)=>{
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash("pololololo", salt, function(err, hash) {
+            // Store hash in your password DB.
+            console.log(salt);
+            console.log(hash);
+        });
+    });
+})
+
+
+decryption 
+bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+    // result == true
+});
+
+app.get("/",(req:Request,res:Response)=>{
+    bcrypt.compare("pololololo", "$2b$10$W5WcfuI0kycf5TsU/TQ0IeRGGUJ3z/CXxoGyX2.gXUh4r7pgwYVte", function(err, result) {
+        // result == true
+        console.log(result);
+    });
+})
+
+
+3. 
+
+jwt teen hisso se banta hai 
+https://jwt.io/
+import jwt from 'jsonwebtoken'
+
+app.get("/",(req:Request,res:Response)=>{
+    let token = jwt.sign({email:"vivekmishra172003@gmail.com"},"secret");
+    res.cookie("token",token);
+    res.send("done");
+    console.log(token);
+})
+
+app.get("/",(req:Request,res:Response)=>{
+    let token = jwt.sign({email:"vivekmishra172003@gmail.com"},"secret");
+    res.cookie("token",token);
+    res.send("done");
+    console.log(token);
+})
+app.get("/read",(req:Request,res:Response)=>{
+    let data =  jwt.verify(req.cookies.token,"secret");
+    console.log(data);
+})
+
+
+https://chatgpt.com/share/26c09547-c16b-4610-a9c6-f9a2bca4e25d
+
+Learning Web Development with Cookies, Bcrypt, and JWT
+Understanding web development involves mastering various tools and techniques. In this guide, we will cover three essential concepts: setting and reading cookies, using bcrypt for password encryption and decryption, and understanding JWT (JSON Web Tokens) for secure data transfer.
+
+1. Working with Cookies
+Cookies are small pieces of data stored on the client's browser to maintain stateful information across different pages. Here’s how you can set and read cookies using Express.js.
+
+Setting a Cookie
+First, let's set up an Express server and set a cookie:
+
+javascript
+Copy code
+import express, { Application, Request, Response } from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const port: number = Number(process.env.PORT) || 3000;
+const app: Application = express();
+
+app.get("/", (req: Request, res: Response) => {
+    res.cookie("name", "harsh");
+    res.status(200).send("done");
+});
+
+app.listen(port, () => {
+    console.log(`Server connected at port ${port}`);
+});
+Reading a Cookie
+To read cookies, you need to install and use the cookie-parser middleware:
+
+bash
+Copy code
+npm install cookie-parser
+npm install --save-dev @types/cookie-parser
+Then, modify your server code to read cookies:
+
+javascript
+Copy code
+import cookieParser from 'cookie-parser';
+
+app.use(cookieParser());
+
+app.get("/read", (req: Request, res: Response) => {
+    console.log(req.cookies);
+    res.send("chak de fatte");
+});
+2. Using Bcrypt for Password Encryption and Decryption
+Bcrypt is a popular library for hashing passwords, which makes storing passwords securely much easier.
+
+Password Encryption
+To encrypt passwords, use the bcrypt library:
+
+javascript
+Copy code
+import bcrypt from 'bcrypt';
+
+app.get("/encrypt", (req: Request, res: Response) => {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash("myPlaintextPassword", salt, (err, hash) => {
+            if (err) throw err;
+            console.log(`Salt: ${salt}`);
+            console.log(`Hash: ${hash}`);
+            res.send("Password encrypted");
+        });
+    });
+});
+Password Decryption (Comparison)
+For comparing a plaintext password with its hash, use the following code:
+
+javascript
+Copy code
+app.get("/compare", (req: Request, res: Response) => {
+    bcrypt.compare("myPlaintextPassword", "$2b$10$W5WcfuI0kycf5TsU/TQ0IeRGGUJ3z/CXxoGyX2.gXUh4r7pgwYVte", (err, result) => {
+        if (err) throw err;
+        console.log(`Password match: ${result}`);
+        res.send(`Password match: ${result}`);
+    });
+});
+3. Understanding and Using JWT (JSON Web Tokens)
+JWTs are a compact, URL-safe means of representing claims to be transferred between two parties. They consist of three parts: Header, Payload, and Signature.
+
+Creating a JWT
+To create a JWT, use the jsonwebtoken library:
+
+bash
+Copy code
+npm install jsonwebtoken
+npm install --save-dev @types/jsonwebtoken
+Then, create and set a JWT as a cookie:
+
+javascript
+Copy code
+import jwt from 'jsonwebtoken';
+
+app.get("/create-token", (req: Request, res: Response) => {
+    const token = jwt.sign({ email: "example@example.com" }, "secret");
+    res.cookie("token", token);
+    res.send("JWT created and set as a cookie");
+    console.log(`Token: ${token}`);
+});
+Reading and Verifying a JWT
+To read and verify a JWT, use the following code:
+
+javascript
+Copy code
+app.get("/read-token", (req: Request, res: Response) => {
+    const token = req.cookies.token;
+    try {
+        const data = jwt.verify(token, "secret");
+        console.log(`Token data: ${JSON.stringify(data)}`);
+        res.send(`Token data: ${JSON.stringify(data)}`);
+    } catch (err) {
+        console.log(`Error verifying token: ${err}`);
+        res.status(401).send("Invalid token");
+    }
+});
+Summary
+By mastering cookies, bcrypt, and JWTs, you can enhance your web development skills, ensuring secure and efficient handling of user data and authentication processes. Here's a recap of what we've covered:
+
+Setting and reading cookies: Cookies help maintain state and user data across sessions.
+Using bcrypt for password encryption and decryption: Bcrypt securely hashes passwords, making it harder for attackers to retrieve original passwords.
+Understanding and using JWT: JWTs enable secure and compact representation of user information, facilitating stateless authentication.
+With these tools and techniques, you are well-equipped to handle essential aspects of web security and user authentication.
