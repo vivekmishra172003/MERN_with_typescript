@@ -1,0 +1,9 @@
+create user account 
+for that we have to setup
+mongoose
+Schema
+model
+usercreate ->password  -> hash
+jwt token -> cookies
+
+login ->token -> decrypt ->email 
