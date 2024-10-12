@@ -1,0 +1,5 @@
+npm create vite@latest my-react-apexcharts-app --template react
+cd my-react-apexcharts-app
+npm i 
+npm run dev 
+npm install react-apexcharts apexcharts
